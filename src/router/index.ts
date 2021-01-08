@@ -1,11 +1,19 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../views/Home.vue";
+import layout from "@/views/layout/layout.vue";
+import dragStation from "@/views/dragStation/dragStation.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "layout",
+    component: layout,
+    children: [
+      {
+        path: '/dragStation',
+        name: "dragStation",
+        component: dragStation
+      }
+    ]
   },
   {
     path: "/about",
