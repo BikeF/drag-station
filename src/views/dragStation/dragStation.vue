@@ -1,70 +1,94 @@
 <template>
   <div>
-    <el-button @click="loadData">查询</el-button>
-    <div style="float:left;">
-      <draggable 
-        v-model="dataList" 
-        group="people"
-        tag="transition-group" 
-        @start="drag=true" 
-        @end="dragEnd" 
-        @choose="chooseEle"
-        @filter="chooseEle"
-        item-key="id">
-        <template #item="{element}">
-          <div>{{element.contentTitle}}</div>
-        </template>
-        <template #footer>
-          <span style="margin-top:100px;">
+    <el-row type="flex">
+      <el-col :span="5">
+       <div class="block">
+         <ul>
+           <li v-for="(item,index) in blockList" :key="index">
+             <p>{{item.type}}</p>
+             <ul class="block-lists">
+               <li v-draggble>我是瞎加的</li>
+               <li v-for="(block, j) in item.children" :key="j">
+                 <p>{{block.name}}</p>
+                 <p>{{block.number}}</p>
+               </li>
+             </ul>
+           </li>
+         </ul>
+       </div>
+      </el-col>
+      <el-col :span="19">
+        <div class="template">
+          <div v-dragged style="width:200px;height:200px;border:1px solid blue;">
 
-          
-            <span class="aaaa">123123123</span>
-            <span class="bbbb">22222222222222222</span>
-            <span class="cccc">333333333333333</span>
-          </span>
-        </template>
-      </draggable>
-    </div>
-    <div style="float:right;">
-      <span class="aaaa">123123123</span>
-      <span class="bbbb">22222222222222222</span>
-      <span class="cccc">333333333333333</span>
-    </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
 import { ajaxGet } from "@/utils/ajax.js";
-import draggable from "vuedraggable";
+// import draggable from "vuedraggable";
 export default defineComponent({
-  components: {
-    draggable
-  },
   setup() {
-    const dataList = ref(['111111', '2222222', '3333333', '4444444444444444']);
-    const dataList2 = ref(['111111', '2222222', '3333333', '4444444444444444']);
-    function chooseEle(...a) {
-      console.log(a);
-    }
-    function dragEnd(...a) {
-      console.log(a);
-    }
-    const drag = ref(true)
-    function loadData() {
-      ajaxGet("http://tzcms.sinoing.net/front/list/latest", {
-        pageNum: 1,
-        pageSize: 10,
-        siteId: "788425706785869824",
-        channelId: "788429013654970368"
-      }).then(res => {
-        console.log(res.data);
-        dataList.value = res.data.info.list;
-      });
-    }
-    return { dataList, drag, loadData, dragEnd, chooseEle };
+    const drawer = ref(true);
+    const blockList = ref([
+      {
+        type: '图文类',
+        children: [
+          {
+            name: '11',
+            number: 10
+          },{
+            name: '11',
+            number: 10
+          },{
+            name: '11',
+            number: 10
+          },{
+            name: '11',
+            number: 10
+          },{
+            name: '11',
+            number: 10
+          },
+        ]
+      }
+    ])
+    return {
+      drawer,
+      blockList
+    };
   }
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.block {
+  background-color: #fff;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,.2);
+  padding: 20px;
+  p {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .block-lists {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    li {
+      width: 100px;
+      height: 80px;
+      text-align: center;
+      cursor: pointer;
+    }
+    li:hover {
+      background-color: #f2f2f2;
+      box-shadow: 0 0 8px 1px rgba(0,0,0,.2);
+    }
+  }
+}
+</style>
