@@ -36,5 +36,10 @@
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "typescript": "~3.9.3"
+  },
+  "rules": {
+    "@typescript-eslint/no-explicit-any": ["off"],
+    "@typescript-eslint/no-mixed-spaces-and-tabs": ["off"]
+
   }
 }

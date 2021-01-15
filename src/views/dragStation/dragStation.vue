@@ -3,15 +3,22 @@
     <el-row type="flex">
       <el-col :span="5">
        <div class="block">
+         <ZxDrag>
+           aaaaaaaaaaaaaaaaaaaa
+         </ZxDrag>
+         <ZxDrag>
+           bbbbbbbbbbbbbbbb
+         </ZxDrag>
          <ul>
            <li v-for="(item,index) in blockList" :key="index">
              <p>{{item.type}}</p>
              <ul class="block-lists">
-               <li v-draggble>我是瞎加的</li>
-               <li v-for="(block, j) in item.children" :key="j">
-                 <p>{{block.name}}</p>
-                 <p>{{block.number}}</p>
-               </li>
+                  <ZxDrag v-for="(block, j) in item.children" :key="j">
+                    <li>
+                      <p>{{block.name}}</p>
+                      <p>{{block.number}}</p>
+                    </li>
+                  </ZxDrag>
              </ul>
            </li>
          </ul>
@@ -31,8 +38,13 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { ajaxGet } from "@/utils/ajax.js";
+import ZxDrag from "@/components/ZxDrag.vue";
 // import draggable from "vuedraggable";
 export default defineComponent({
+  name: "dragStation",
+  components: {
+    ZxDrag
+  },
   setup() {
     const drawer = ref(true);
     const blockList = ref([
